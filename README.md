@@ -1,4 +1,4 @@
-# SpringDoc-Formly Library
+# SpringDoc Ngx-Formly
 
 ## Overview
 The SpringDoc-Formly Library, currently in early development, aims to facilitate the creation of Angular forms in projects using Spring Boot. It primarily serves to translate Spring Boot's REST API model schemas into ngx-formly configurations, focusing on custom formly types for specific use cases.
