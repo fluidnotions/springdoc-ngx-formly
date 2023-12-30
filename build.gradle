@@ -1,0 +1,77 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.2.0'
+    id 'io.spring.dependency-management' version '1.1.4'
+}
+
+group = "com.fluidnotions"
+version = "0.0.1-SNAPSHOT"
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springdoc:springdoc-openapi-common:1.7.0'
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+    annotationProcessor 'org.projectlombok:lombok'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+//task customFatJar(type: Jar) {
+//    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+//    from sourceSets.main.output
+//    from {
+//
+//        configurations.runtimeClasspath.collect {
+//            if(it.isDirectory()) {
+//                it
+//            } else {
+//                def tree = zipTree(it)
+//                tree.matching {
+//                    exclude 'org/springframework/**'
+//                }
+//            }
+//        }
+//    }
+//}
+//
+//def properties = new Properties()
+//file("./local.properties").withInputStream { properties.load(it) }
+//
+//publishing {
+//    repositories {
+//        maven {
+//            name = "GitHubPackages"
+//            url = uri("https://maven.pkg.github.com/fluidnotions/springdoc-ngx-formly-library")
+//            credentials {
+//                username = properties.getProperty('github.username')
+//                password = properties.getProperty('github.token')
+//            }
+//        }
+//    }
+//    publications {
+//        gpr(MavenPublication) {
+//            artifactId = 'springdoc-ngx-formly-library'
+//            artifact customFatJar
+//        }
+//    }
+//}
+//
+//publish.dependsOn customFatJar
+
+
+test {
+    useJUnitPlatform()
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
+}
