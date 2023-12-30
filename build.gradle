@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "com.fluidnotions"
-version = "0.0.1-SNAPSHOT"
+version = "0.0.1"
 
 configurations {
     compileOnly {
@@ -52,7 +52,7 @@ publishing {
     repositories {
         maven {
             name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/fluidnotions/springdoc-ngx-formly-library")
+            url = uri("https://maven.pkg.github.com/fluidnotions/springdoc-ngx-formly")
             credentials {
                 username = properties.getProperty('github.username')
                 password = properties.getProperty('github.token')
@@ -61,7 +61,7 @@ publishing {
     }
     publications {
         gpr(MavenPublication) {
-            artifactId = 'springdoc-ngx-formly-library'
+            artifactId = 'springdoc-ngx-formly'
             artifact customFatJar
         }
     }
