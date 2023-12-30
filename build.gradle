@@ -2,6 +2,7 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '3.2.0'
     id 'io.spring.dependency-management' version '1.1.4'
+    id 'maven-publish'
 }
 
 group = "com.fluidnotions"
@@ -26,47 +27,47 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
-//task customFatJar(type: Jar) {
-//    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-//    from sourceSets.main.output
-//    from {
-//
-//        configurations.runtimeClasspath.collect {
-//            if(it.isDirectory()) {
-//                it
-//            } else {
-//                def tree = zipTree(it)
-//                tree.matching {
-//                    exclude 'org/springframework/**'
-//                }
-//            }
-//        }
-//    }
-//}
-//
-//def properties = new Properties()
-//file("./local.properties").withInputStream { properties.load(it) }
-//
-//publishing {
-//    repositories {
-//        maven {
-//            name = "GitHubPackages"
-//            url = uri("https://maven.pkg.github.com/fluidnotions/springdoc-ngx-formly-library")
-//            credentials {
-//                username = properties.getProperty('github.username')
-//                password = properties.getProperty('github.token')
-//            }
-//        }
-//    }
-//    publications {
-//        gpr(MavenPublication) {
-//            artifactId = 'springdoc-ngx-formly-library'
-//            artifact customFatJar
-//        }
-//    }
-//}
-//
-//publish.dependsOn customFatJar
+task customFatJar(type: Jar) {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    from sourceSets.main.output
+    from {
+
+        configurations.runtimeClasspath.collect {
+            if(it.isDirectory()) {
+                it
+            } else {
+                def tree = zipTree(it)
+                tree.matching {
+                    exclude 'org/springframework/**'
+                }
+            }
+        }
+    }
+}
+
+def properties = new Properties()
+file("./local.properties").withInputStream { properties.load(it) }
+
+publishing {
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/fluidnotions/springdoc-ngx-formly-library")
+            credentials {
+                username = properties.getProperty('github.username')
+                password = properties.getProperty('github.token')
+            }
+        }
+    }
+    publications {
+        gpr(MavenPublication) {
+            artifactId = 'springdoc-ngx-formly-library'
+            artifact customFatJar
+        }
+    }
+}
+
+publish.dependsOn customFatJar
 
 
 test {

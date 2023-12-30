@@ -1,7 +1,5 @@
 package com.fluidnotions.springdocngxformly;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,18 +12,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class NgxFormlyController {
 
-    private final AnnotationProcessor annotationProcessor;
-    private final ObjectMapper objectMapper;
+    private final AnnotationProcessor formly;
 
-    @GetMapping("/{schemaName}")
-    public ResponseEntity<ObjectNode> getFormlyJson(@PathVariable(required = false) String schemaName) {
-        var openApi = annotationProcessor.getOpenApi();
-        var response = objectMapper.createObjectNode();
-        response.put("schemaName", schemaName);
-        response.put("schemas", openApi.getComponents().getSchemas().toString());
-        if(schemaName != null && openApi.getComponents().getSchemas().get(schemaName) != null){
-            response.put("schema", openApi.getComponents().getSchemas().get(schemaName).toString());
+    @GetMapping("schema/{simpleRequestBodyClassName}")
+    public ResponseEntity<String> getFormlyJson(@PathVariable(required = false) String simpleRequestBodyClassName) {
+        try {
+            return ResponseEntity.ok(formly.getSchemaFormlyFormDefinitions(simpleRequestBodyClassName));
+        } catch (Exception e) {
+           return ResponseEntity.badRequest().body(e.getMessage());
         }
-        return ResponseEntity.ok(response);
     }
 }
