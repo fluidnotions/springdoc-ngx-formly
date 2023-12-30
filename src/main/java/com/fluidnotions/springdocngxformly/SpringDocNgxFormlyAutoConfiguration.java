@@ -9,8 +9,4 @@ import org.springframework.context.annotation.Configuration;
 @AutoConfigureAfter({OpenAPIService.class})
 public class SpringDocNgxFormlyAutoConfiguration {
 
-    @Bean
-    public OpenAPIService openAPIService() {
-        return new OpenAPIService();
-    }
 }

@@ -1,34 +1,36 @@
 package com.fluidnotions.springdocngxformly;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fluidnotions.springdocngxformly.annoations.SpringdocNgxFormlyField;
 import com.fluidnotions.springdocngxformly.annoations.SpringdocNgxFormlyFieldExpressions;
 import com.fluidnotions.springdocngxformly.annoations.SpringdocNgxFormlyFieldGroup;
 import com.fluidnotions.springdocngxformly.annoations.SpringdocNgxFormlyFieldProps;
-import io.swagger.v3.oas.models.OpenAPI;
+import jakarta.annotation.PostConstruct;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springdoc.core.OpenAPIService;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
 import java.util.stream.Collectors;
 
 @Component
 @Slf4j
 @Getter
+@RequiredArgsConstructor
 public class AnnotationProcessor {
 
-    private final OpenAPIService openAPIService;
-    private List<FieldInfo> fieldInfo;
-    private OpenAPI openApi;
 
-    public AnnotationProcessor(OpenAPIService openAPIService) {
-        this.openAPIService = openAPIService;
-        var openApi = openAPIService.getCachedOpenAPI(Locale.US);
-        log.info("openApi: {}", openApi);
+    private final OpenApiJsonService openApiJsonService;
+
+    private List<FieldInfo> fieldInfo;
+
+    @PostConstruct()
+    public void init() {
+       var openApiObjectNode = openApiJsonService.getJsonObjectNode();
+       log.info("openApiObjectNode: {}", openApiObjectNode);
     }
 
     public void processAnnotations(String fullyQualifiedName) throws ClassNotFoundException {
